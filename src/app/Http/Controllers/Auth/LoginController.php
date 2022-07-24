@@ -90,7 +90,4 @@ class LoginController extends Controller
         return $savedUser;
     }
 
-    // public function loggedOut(Request $request) {
-    //     Auth::logout();
-    //   }
 }

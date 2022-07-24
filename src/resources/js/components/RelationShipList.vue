@@ -18,8 +18,11 @@
                 }}</span>
             </li>
         </ul>
-        <p v-if="!hasRelation" class="text-center py-5">
+        <p v-if="!hasRelation && args.relationType === 'follow'" class="text-center py-5">
             フォローしているユーザーはいません。
+        </p>
+        <p v-if="!hasRelation && args.relationType === 'follower'" class="text-center py-5">
+            あなたをフォローしているユーザーはいません。
         </p>
     </div>
 </template>
@@ -40,12 +43,12 @@ export default {
         },
     },
     mounted: function () {
-        console.log('modal content',this.args.relationList);
-        if (this.args.relationList) {
-            this.hasRelation = false;
-        } else {
+        console.log('modal content',this.args);
+        if (this.args.relationList.length) {
             this.hasRelation = true;
             this.relationList = this.args.relationList;
+        } else {
+            this.hasRelation = false;
         }
         console.log('判定', this.hasRelation);
     },

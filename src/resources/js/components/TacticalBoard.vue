@@ -51,5 +51,8 @@ export default {
             this.$refs.buttons.hasImage = true;
         },
     },
+    mounted: function () {
+        console.log(this.isPost);
+    }
 };
 </script>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Relationship;
 use Exception;
 use vierbergenlars\SemVer\expression;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -22,18 +23,19 @@ class UserController extends Controller
     {
         $loginUser = Auth::user();
         // $selectedUser = User::find($id);
-        $selectedUser = User::with(['followingUser','followedUser', 'posts'])->find($id);
+        $selectedUser = User::with(['followingUser', 'followedUser', 'posts'])->find($id);
         // dd($selectedUser->followingUser->count());
         $isIndex = true;
         $isSelf = $loginUser->id == $id;
         $isFollowing = $loginUser->isfollowingOrNot($selectedUser);
 
         return view('user.detail', compact(
-                                    'selectedUser',
-                                    'loginUser',
-                                    'isIndex',
-                                    'isFollowing',
-                                    'isSelf'));
+            'selectedUser',
+            'loginUser',
+            'isIndex',
+            'isFollowing',
+            'isSelf'
+        ));
     }
 
     /**
@@ -45,7 +47,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = Auth::user();
-        return view('user.edit', ['user'=>$user]);
+        return view('user.edit', ['user' => $user]);
     }
 
     /**
@@ -60,37 +62,33 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $user = User::find($id);
-    
             $input = $request->input();
             unset($input['_method'], $input['_token']);
             $input = array_diff($input, array(null));
             $user->fill($input);
 
-            if(!($request->file('image') * $input)){
+            if (!$request->file('image') && !$input) {
                 throw new Exception();
             }
 
-            if($request->file('image')) {
-                
-                if($user->icon_image) {
+            if ($request->file('image')) {
+
+                if ($user->icon_image) {
                     Storage::dist('s3')->delete($user->icon_image);
                 }
-    
+
                 $imageName = Storage::disk('s3')
-                            ->putFile('icon_images', $request->file('image'));
-                
-                // dd($imageName);
-                
+                    ->putFile('icon_image', $request->file('image'));
+
                 $iconUrl = Storage::disk('s3')->url($imageName);
-                // dd($iconUrl);
                 $user->icon_image = $iconUrl;
-            
             }
             $user->save();
             DB::commit();
             return redirect("/user/{$id}");
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             DB::rollBack();
+            return redirect("/user/{$id}");
         }
     }
 

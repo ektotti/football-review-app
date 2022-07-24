@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.board')
 
 @section('content')
 <tactical-board 
-:is-post="true"
+:is-post='@json($isPost)'
 ></tactical-board>
 <portal-target name="modal"></portal-target>
 @endsection

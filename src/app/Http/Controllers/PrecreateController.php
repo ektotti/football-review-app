@@ -15,7 +15,10 @@ class PrecreateController extends Controller
     }
 
     public function board(Request $request){
+        $referer = $_SERVER['HTTP_REFERER'];
+        $path = parse_url($referer, PHP_URL_PATH);
+        $isPost = $path === '/home' ? false : true;
         $request->session()->put('fixture_id', $request->fixture_id);
-        return view('create_board');
+        return view('create_board', ['isPost'=>$isPost]);
     }
 }

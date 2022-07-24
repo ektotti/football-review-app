@@ -116,7 +116,8 @@ export default {
             let response = await Axios.get(
                 `/relationship/follow/${this.selectedUser.id}`
             );
-            this.args.relationList = await response.data.followList;
+            this.args.relationList = response.data.followList;
+            this.args.relationType = "follow";
             console.log('profiel', this.args.relationList);
             this.showModal = true;
         },
@@ -124,7 +125,9 @@ export default {
             let response = await Axios.get(
                 `/relationship/follower/${this.selectedUser.id}`
             );
-            this.relationList = await response.data;
+            this.args.relationList = response.data.followerList;
+            this.args.relationType = "follower";
+            console.log(this.args.relationList);
             this.showModal = true;
         },
     },

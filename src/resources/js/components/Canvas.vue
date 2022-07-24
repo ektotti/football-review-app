@@ -9,31 +9,28 @@ export default {
             canvas: {},
             newRect: {},
             newText: {},
-            // field: this.$el.parentElement,
+            field: {},
         };
     },
     methods: {
         init() {
+            this.field = document.querySelector('#field');
             this.canvas = new fabric.Canvas("cv");
-            this.canvas.setWidth(field.clientWidth);
-            this.canvas.setHeight(field.clientHeight);
+            this.canvas.setWidth(this.field.clientWidth);
+            this.canvas.setHeight(this.field.clientHeight);
             this.canvas.freeDrawingBrush.color = "rbg(0,0,0)";
             this.canvas.freeDrawingBrush.width = 2;
             this.canvas.freeDrawingBrush.strokeDashArray = [1, 1];
             this.canvas.selection = true;
-            this.canvas.on("selection:created", function(){
-                let deleteBtn = document.querySelector('#delete');
-                deleteBtn.removeAttribute('disabled');
-                // this.remove(this.getActiveObject())
-            })
-            this.canvas.on("selection:cleared", function(){
-                let deleteBtn = document.querySelector('#delete');
-                deleteBtn.setAttribute('disabled', null);
-            })
+            this.canvas.on("selection:created", function () {
+                let deleteBtn = document.querySelector("#delete");
+                deleteBtn.removeAttribute("disabled");
+            });
+            this.canvas.on("selection:cleared", function () {
+                let deleteBtn = document.querySelector("#delete");
+                deleteBtn.setAttribute("disabled", null);
+            });
         },
-        // deleteObject: function(){
-            
-        // }
         _onClickText: function () {
             this.canvas.isDrawingMode = false;
             this.newText = new fabric.Textbox("テキストを入力してください", {
@@ -41,8 +38,6 @@ export default {
                 top: 100,
                 height: 60,
                 opacity: 1,
-                // stroke: 'black',
-                // strokeWidth: 0.5,
                 fontWeight: "lighter",
                 strokeUniform: false,
                 backgroundColor: "#ffffff73",
@@ -70,21 +65,26 @@ export default {
             console.log(this.canvas);
         },
         _onClickLine: function () {
-            if(this.canvas.isDrawingMode === true){
+            console.log(this.field);
+            if (this.canvas.isDrawingMode === true) {
                 this.canvas.isDrawingMode = false;
             } else {
                 this.canvas.isDrawingMode = true;
             }
         },
         _onClickDelete: function () {
-            let objects = this.canvas.getActiveObject();
-            for(let object of objects._objects) {
-                this.canvas.remove(object);
+            let activeObjects = this.canvas.getActiveObjects();
+            if(activeObjects != null) {
+                activeObjects.forEach(function(object) {
+                    this.canvas.remove(object);
+                }.bind(this));
             }
         },
     },
     mounted() {
-        this.init();
+        window.onload = () => {
+            this.init();
+        }
     },
 };
 </script>

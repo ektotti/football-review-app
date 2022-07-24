@@ -91,7 +91,8 @@
                 v-for="(comment, index) in post.comments"
                 :key="index"
             >
-                <p class="mb-0">{{ comment.user.name }}</p>
+                <p class="mb-0" v-if="comment.user.nickname">{{ comment.user.nickname }}</p>
+                <p class="mb-0" v-if="!comment.user.nickname">{{ comment.user.name }}</p>
                 <span>{{ comment.body }}</span>
             </li>
         </ul>

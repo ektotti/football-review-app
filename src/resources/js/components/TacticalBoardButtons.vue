@@ -29,7 +29,7 @@
             </div>
             <div class="col-5 row justify-content-end">
                 <button class="col-0.5 btn btn-outline-secondary mr-2">
-                    <a class="text-body" href="/create/prepare">戻る</a>
+                    <a class="text-body" href="/">戻る</a>
                 </button>
                 <button class="col-2 btn btn-outline-secondary mr-2" @click="_changePlayers">
                     交代

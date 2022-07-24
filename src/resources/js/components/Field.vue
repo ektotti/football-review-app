@@ -10,6 +10,7 @@
             :name="hometeamPlayersInPosition.name | formatPlayerName"
         >
         </HometeamPlayers>
+        <Ball></Ball>
         <AwayteamPlayers
             v-for="(
                 awayteamPlayersInPosition, key
@@ -39,6 +40,8 @@ import AwayteamPlayers from "./AwayteamPlayers.vue";
 import Modal from "./Modal.vue";
 import PortalVue from "portal-vue";
 import html2canvas from "html2canvas";
+import Ball from "./Ball.vue";
+import Ball1 from "./Ball.vue";
 
 Vue.use(PortalVue);
 export default {
@@ -149,10 +152,12 @@ export default {
         this.removeImagesFromSession();
     },
     components: {
-        HometeamPlayers,
-        AwayteamPlayers,
-        Modal,
-        Canvas,
-    },
+    HometeamPlayers,
+    AwayteamPlayers,
+    Modal,
+    Canvas,
+    Ball,
+    Ball1
+},
 };
 </script>

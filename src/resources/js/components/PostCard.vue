@@ -55,21 +55,30 @@ export default {
         return {
             posts: [],
             page: 1,
+            hasMorePage: true,
         };
     },
     methods: {
         infiniteHandler: async function ($state) {
-            let url = this.tagName
-                ? `/api/post/${this.tagName}?page=${this.page}`
-                : `/api/post?page=${this.page}`;
-            let response = await Axios.get(url);
-            console.log(response);
-            for (let PostObj of response.data.data) {
-                PostObj.images = this.getImageName(PostObj);
-                this.posts.push(PostObj);
+            
+            if(this.hasMorePage) {
+                console.log(this.tagName);
+                let url = this.tagName
+                    ? `/post-list/${this.tagName}?page=${this.page}`
+                    : `/post-list?page=${this.page}`;
+
+                let response = await Axios.get(url);
+                
+                for (let PostObj of response.data.data) {
+                    PostObj.images = this.getImageName(PostObj);
+                    this.posts.push(PostObj);
+                }
+                $state.loaded();
+                this.hasMorePage = response.data.hasMorePage;
+                this.page += 1;
+            } else {
+                $state.complete();
             }
-            $state.loaded();
-            this.page += 1;
         },
         getImageName: function ({ image1, image2, image3, image4 }) {
             let images = [image1, image2, image3, image4];
