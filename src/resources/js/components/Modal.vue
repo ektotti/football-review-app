@@ -1,11 +1,7 @@
 <template>
-    <div class="modal-base row justify-content-center" v-if="showModal">
+    <div class="modal-base row justify-content-center">
         <div class="modal-overlay text-center"></div>
-        <component
-            :is="modalContent"
-            :args="args"
-            @contentBtnClick="contentBtnClick"
-        ></component>
+        <slot></slot>
     </div>
 </template>
 
@@ -13,24 +9,8 @@
 import SetPostions from "./SetPostions";
 import DeletePost from "./DeletePost";
 import CreatePostInfo from "./CreatePostInfo";
-import RelationShipList from "./RelationShipList";
+import RelationShipList from "./RelationShipList.vue";
 export default {
-    props: {
-        showModal: {
-            required: true,
-            type: Boolean,
-        },
-        modalContent: '',
-        args:[]
-    },
-    methods: {
-        contentBtnClick: function (...args) {
-            this.$emit(
-                "contentBtnClick",
-                args[0],
-            );
-        },
-    },
     components: {
         DeletePost,
         SetPostions,

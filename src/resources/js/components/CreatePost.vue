@@ -55,10 +55,9 @@
             </div>
         </div>
         <portal to="modal">
-            <Modal
-                :showModal="showModal"
-                :modalContent="'CreatePostInfo'"
-            ></Modal>
+            <Modal v-if="showModal">
+                <CreatePostInfo></CreatePostInfo>
+            </Modal>
         </portal>
     </div>
 </template>
@@ -68,6 +67,7 @@ Vue.use(PortalVue);
 import PostImageCarousel from "./PostImageCarousel.vue";
 import Modal from "./Modal.vue";
 import axios from "axios";
+import CreatePostInfo from "./CreatePostInfo.vue";
 
 export default {
     props: {
@@ -156,6 +156,7 @@ export default {
     components: {
         PostImageCarousel,
         Modal,
+        CreatePostInfo,
     },
 };
 </script>

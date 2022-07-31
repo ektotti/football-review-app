@@ -13,8 +13,12 @@
             </div>
             <div class="profiel-inner-content col-8">
                 <div class="upside row py-2 align-items-center">
-                    <h2 class="mr-5 mb-0" v-if="selectedUser.nickname">{{ selectedUser.nickname }}</h2>
-                    <h2 class="mr-5 mb-0" v-if="!selectedUser.nickname">{{ selectedUser.name }}</h2>
+                    <h2 class="mr-5 mb-0" v-if="selectedUser.nickname">
+                        {{ selectedUser.nickname }}
+                    </h2>
+                    <h2 class="mr-5 mb-0" v-if="!selectedUser.nickname">
+                        {{ selectedUser.name }}
+                    </h2>
                     <div v-show="!isSelf">
                         <button
                             class="btn btn-primary mr-5"
@@ -32,12 +36,19 @@
                         </button>
                     </div>
                     <div v-show="isSelf" class="row">
-                        <a :href="`/user/${selectedUser.id}/edit`" class="btn btn-primary btn btn-primary mx-3">
+                        <a
+                            :href="`/user/${selectedUser.id}/edit`"
+                            class="btn btn-primary btn btn-primary mx-3"
+                        >
                             プロフィール編集
                         </a>
                         <form action="/logout" method="post">
-                            <input type="hidden" name="_token" :value="csrf">
-                            <input type="submit" value="ログアウト" class="btn btn-primary">
+                            <input type="hidden" name="_token" :value="csrf" />
+                            <input
+                                type="submit"
+                                value="ログアウト"
+                                class="btn btn-primary"
+                            />
                         </form>
                     </div>
                 </div>
@@ -58,13 +69,11 @@
             </div>
         </div>
         <portal to="modal">
-            <Modal
-                @contentBtnClick="showModal=false"
-                :showModal="showModal"
-                :args="args"
-                :modalContent="'RelationShipList'"
-                v-if="showModal"
-            >
+            <Modal v-if="showModal">
+                <RelationShipList
+                    :args="args"
+                    @contentBtnClick="showModal = false"
+                ></RelationShipList>
             </Modal>
         </portal>
     </div>
@@ -72,6 +81,7 @@
 <script>
 import PortalVue from "portal-vue";
 import Axios from "axios";
+import RelationShipList from "./RelationShipList.vue";
 
 Vue.use(PortalVue);
 export default {
@@ -79,18 +89,20 @@ export default {
         selectedUser: {},
         loginUser: {},
         isFollowing: "",
-        isSelf:{
-            default:false,
+        isSelf: {
+            default: false,
         },
     },
     data: function () {
         return {
             showModal: false,
-            args:[],
-            postAmount: this.selectedUser.posts.length,   
-            followingUserAmount: this.selectedUser.following_user.length,   
+            args: [],
+            postAmount: this.selectedUser.posts.length,
+            followingUserAmount: this.selectedUser.following_user.length,
             followedUserAmount: this.selectedUser.followed_user.length,
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),               
+            csrf: document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
         };
     },
     methods: {
@@ -118,7 +130,7 @@ export default {
             );
             this.args.relationList = response.data.followList;
             this.args.relationType = "follow";
-            console.log('profiel', this.args.relationList);
+            console.log("profiel", this.args.relationList);
             this.showModal = true;
         },
         showFollowers: async function () {
@@ -131,5 +143,6 @@ export default {
             this.showModal = true;
         },
     },
+    components: { RelationShipList },
 };
 </script>

@@ -97,15 +97,15 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
-    props: {},
+    props: {
+        hometeamPlayers: {},
+        awayteamPlayers: {},
+        hometeamName: "",
+        awayteamName: "",
+    },
     data: function () {
         return {
-            hometeamPlayers: {},
-            awayteamPlayers: {},
-            hometeamName: "",
-            awayteamName: "",
             positions: [
                 "GK",
                 "CB",
@@ -141,27 +141,18 @@ export default {
                 "player_9",
                 "player_10",
                 "player_11",
-            ]
+            ],
         };
     },
-    mounted: async function () {
-        try {
-            let fixtureIdParam = location.search;
-            let response = await axios.get(`/api/players${fixtureIdParam}`);
-            this.hometeamPlayers = response.data.players.hometeamPlayers;
-            this.awayteamPlayers = response.data.players.awayteamPlayers;
-            this.hometeamPlayers = this.setPositionProp(this.hometeamPlayers);
-            this.awayteamPlayers = this.setPositionProp(this.awayteamPlayers);
-            this.hometeamName = response.data.hometeamName;
-            this.awayteamName = response.data.awayteamName;
-        } catch (error) {
-            alert("playerが取得出来ませんでした。時間をおいてやり直して見て下さい。")
-            location.href='/';
+    computed: {
+        hometeamPlayersWithPosition: {
+            get(){
+                return this.hometeamPlayers;
+            }
         }
     },
     methods: {
         contentBtnClick: function () {
-            this.show = false;
             this.$emit("contentBtnClick", [
                 this.hometeamPlayers,
                 this.awayteamPlayers,
@@ -171,7 +162,7 @@ export default {
             for (let key in players) {
                 if (this.startingMemberKeys.includes(key)) {
                     players[key].postion = "";
-                    } else {
+                } else {
                     players[key].position = "RESERVE";
                 }
             }

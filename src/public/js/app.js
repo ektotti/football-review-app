@@ -2093,6 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _DeletePost_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DeletePost.vue */ "./resources/js/components/DeletePost.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2212,6 +2213,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_2___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2285,7 +2287,8 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_2___default.a);
     }()
   },
   components: {
-    Modal: _Modal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Modal: _Modal_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    DeletePost: _DeletePost_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 
@@ -2474,6 +2477,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Modal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Modal.vue */ "./resources/js/components/Modal.vue");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _CreatePostInfo_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./CreatePostInfo.vue */ "./resources/js/components/CreatePostInfo.vue");
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -2545,9 +2549,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
+
 
 
 
@@ -2666,7 +2670,8 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
   },
   components: {
     PostImageCarousel: _PostImageCarousel_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Modal: _Modal_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    Modal: _Modal_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    CreatePostInfo: _CreatePostInfo_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 });
 
@@ -2744,6 +2749,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
 /* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _Ball_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Ball.vue */ "./resources/js/components/Ball.vue");
+/* harmony import */ var _SetPostions_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SetPostions.vue */ "./resources/js/components/SetPostions.vue");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -2788,9 +2794,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
+
 
 
 
@@ -2902,6 +2906,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
       this.hometeamPlayersInPositions = args[0][0];
       this.awayteamPlayersInPositions = args[0][1];
       this.showModal = false;
+      console.log(this.showModal);
     },
     removeImagesFromSession: function removeImagesFromSession() {
       if (sessionStorage.getItem("images")) {
@@ -3016,7 +3021,8 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_5___default.a);
     Modal: _Modal_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     Canvas: _Canvas_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Ball: _Ball_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
-    Ball1: _Ball_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+    Ball1: _Ball_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    SetPostions: _SetPostions_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
   }
 });
 
@@ -3266,11 +3272,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SetPostions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SetPostions */ "./resources/js/components/SetPostions.vue");
 /* harmony import */ var _DeletePost__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeletePost */ "./resources/js/components/DeletePost.vue");
 /* harmony import */ var _CreatePostInfo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CreatePostInfo */ "./resources/js/components/CreatePostInfo.vue");
-/* harmony import */ var _RelationShipList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RelationShipList */ "./resources/js/components/RelationShipList.vue");
-//
-//
-//
-//
+/* harmony import */ var _RelationShipList_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RelationShipList.vue */ "./resources/js/components/RelationShipList.vue");
 //
 //
 //
@@ -3283,24 +3285,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    showModal: {
-      required: true,
-      type: Boolean
-    },
-    modalContent: '',
-    args: []
-  },
-  methods: {
-    contentBtnClick: function contentBtnClick() {
-      this.$emit("contentBtnClick", arguments.length <= 0 ? undefined : arguments[0]);
-    }
-  },
   components: {
     DeletePost: _DeletePost__WEBPACK_IMPORTED_MODULE_1__["default"],
     SetPostions: _SetPostions__WEBPACK_IMPORTED_MODULE_0__["default"],
     CreatePostInfo: _CreatePostInfo__WEBPACK_IMPORTED_MODULE_2__["default"],
-    RelationShipList: _RelationShipList__WEBPACK_IMPORTED_MODULE_3__["default"]
+    RelationShipList: _RelationShipList_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 });
 
@@ -3548,6 +3537,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _RelationShipList_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RelationShipList.vue */ "./resources/js/components/RelationShipList.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3625,6 +3615,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -3644,7 +3644,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
       postAmount: this.selectedUser.posts.length,
       followingUserAmount: this.selectedUser.following_user.length,
       followedUserAmount: this.selectedUser.followed_user.length,
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute("content")
     };
   },
   methods: {
@@ -3729,7 +3729,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
                 response = _context3.sent;
                 this.args.relationList = response.data.followList;
                 this.args.relationType = "follow";
-                console.log('profiel', this.args.relationList);
+                console.log("profiel", this.args.relationList);
                 this.showModal = true;
 
               case 7:
@@ -3777,6 +3777,9 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a);
 
       return showFollowers;
     }()
+  },
+  components: {
+    RelationShipList: _RelationShipList_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 });
 
@@ -4042,7 +4045,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context.prev = 13;
               _context.t0 = _context["catch"](0);
               alert("playerが取得出来ませんでした。時間をおいてやり直して見て下さい。");
-              location.href = '/';
+              location.href = "/";
 
             case 17:
             case "end":
@@ -4060,7 +4063,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   }(),
   methods: {
     contentBtnClick: function contentBtnClick() {
-      this.show = false;
       this.$emit("contentBtnClick", [this.hometeamPlayers, this.awayteamPlayers]);
     },
     setPositionProp: function setPositionProp(players) {
@@ -82659,19 +82661,21 @@ var render = function () {
         "portal",
         { attrs: { to: "modal" } },
         [
-          !_vm.isIndex
-            ? _c("Modal", {
-                attrs: {
-                  showModal: _vm.showModal,
-                  modalContent: "DeletePost",
-                  args: { postId: _vm.post.id },
-                },
-                on: {
-                  contentBtnClick: function ($event) {
-                    _vm.showModal = false
-                  },
-                },
-              })
+          _vm.showModal
+            ? _c(
+                "Modal",
+                [
+                  _c("DeletePost", {
+                    attrs: { args: { postId: _vm.post.id } },
+                    on: {
+                      contentBtnClick: function ($event) {
+                        _vm.showModal = false
+                      },
+                    },
+                  }),
+                ],
+                1
+              )
             : _vm._e(),
         ],
         1
@@ -83001,11 +83005,7 @@ var render = function () {
       _c(
         "portal",
         { attrs: { to: "modal" } },
-        [
-          _c("Modal", {
-            attrs: { showModal: _vm.showModal, modalContent: "CreatePostInfo" },
-          }),
-        ],
+        [_vm.showModal ? _c("Modal", [_c("CreatePostInfo")], 1) : _vm._e()],
         1
       ),
     ],
@@ -83200,10 +83200,17 @@ var render = function () {
         "portal",
         { attrs: { to: "modal" } },
         [
-          _c("Modal", {
-            attrs: { showModal: _vm.showModal, modalContent: "SetPostions" },
-            on: { contentBtnClick: _vm.setPlayers },
-          }),
+          _vm.showModal
+            ? _c(
+                "Modal",
+                [
+                  _c("SetPostions", {
+                    on: { contentBtnClick: _vm.setPlayers },
+                  }),
+                ],
+                1
+              )
+            : _vm._e(),
         ],
         1
       ),
@@ -83395,22 +83402,16 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.showModal
-    ? _c(
-        "div",
-        { staticClass: "modal-base row justify-content-center" },
-        [
-          _c("div", { staticClass: "modal-overlay text-center" }),
-          _vm._v(" "),
-          _c(_vm.modalContent, {
-            tag: "component",
-            attrs: { args: _vm.args },
-            on: { contentBtnClick: _vm.contentBtnClick },
-          }),
-        ],
-        1
-      )
-    : _vm._e()
+  return _c(
+    "div",
+    { staticClass: "modal-base row justify-content-center" },
+    [
+      _c("div", { staticClass: "modal-overlay text-center" }),
+      _vm._v(" "),
+      _vm._t("default"),
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -83578,13 +83579,21 @@ var render = function () {
             _c("div", { staticClass: "upside row py-2 align-items-center" }, [
               _vm.selectedUser.nickname
                 ? _c("h2", { staticClass: "mr-5 mb-0" }, [
-                    _vm._v(_vm._s(_vm.selectedUser.nickname)),
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.selectedUser.nickname) +
+                        "\n                "
+                    ),
                   ])
                 : _vm._e(),
               _vm._v(" "),
               !_vm.selectedUser.nickname
                 ? _c("h2", { staticClass: "mr-5 mb-0" }, [
-                    _vm._v(_vm._s(_vm.selectedUser.name)),
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.selectedUser.name) +
+                        "\n                "
+                    ),
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -83718,18 +83727,20 @@ var render = function () {
         { attrs: { to: "modal" } },
         [
           _vm.showModal
-            ? _c("Modal", {
-                attrs: {
-                  showModal: _vm.showModal,
-                  args: _vm.args,
-                  modalContent: "RelationShipList",
-                },
-                on: {
-                  contentBtnClick: function ($event) {
-                    _vm.showModal = false
-                  },
-                },
-              })
+            ? _c(
+                "Modal",
+                [
+                  _c("RelationShipList", {
+                    attrs: { args: _vm.args },
+                    on: {
+                      contentBtnClick: function ($event) {
+                        _vm.showModal = false
+                      },
+                    },
+                  }),
+                ],
+                1
+              )
             : _vm._e(),
         ],
         1
