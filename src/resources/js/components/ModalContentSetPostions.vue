@@ -129,19 +129,6 @@ export default {
                 "LST",
                 "CF",
             ],
-            startingMemberKeys: [
-                "player_1",
-                "player_2",
-                "player_3",
-                "player_4",
-                "player_5",
-                "player_6",
-                "player_7",
-                "player_8",
-                "player_9",
-                "player_10",
-                "player_11",
-            ],
         };
     },
     computed: {
@@ -157,16 +144,6 @@ export default {
                 this.hometeamPlayers,
                 this.awayteamPlayers,
             ]);
-        },
-        setPositionProp: function (players) {
-            for (let key in players) {
-                if (this.startingMemberKeys.includes(key)) {
-                    players[key].postion = "";
-                } else {
-                    players[key].position = "RESERVE";
-                }
-            }
-            return players;
         },
     },
 };

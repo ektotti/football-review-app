@@ -6,14 +6,14 @@
             v-for="(post, index) in posts"
             :key="index"
         >
-            <CardHeader :post="post"></CardHeader>
-            <CardBody
+            <PostCardHeader :post="post"></PostCardHeader>
+            <PostCardBody
                 :post="post"
                 :isIndex="isIndex"
                 :likeThisPost="likeThisPost"
                 :isSelf="isSelf"
-            ></CardBody>
-            <CardFooter :post="post" v-show="!isIndex"></CardFooter>
+            ></PostCardBody>
+            <PostCardFooter :post="post" v-show="!isIndex"></PostCardFooter>
         </div>
         <infinitLoading
             @infinite="infiniteHandler"
@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import PostCardHeader from "./PostCardHeader.vue";
+import PostCardBody from "./PostCardBody.vue";
+import PostCardFooter from "./PostCardFooter.vue";
 import Axios from "axios";
 import infinitLoading from "vue-infinite-loading";
 
@@ -102,6 +105,9 @@ export default {
     },
     components: {
         infinitLoading,
+        PostCardHeader,
+        PostCardBody,
+        PostCardFooter
     },
 };
 </script>

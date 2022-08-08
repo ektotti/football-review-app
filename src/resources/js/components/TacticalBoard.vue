@@ -1,7 +1,7 @@
 <template>
     <div class="tactical-board row flex-column align-items-center">
-        <field ref="field" :isPost="isPost" @hasImage="hasImage"></field>
-        <tactical-board-buttons
+        <TacticalBoardField ref="field" :isPost="isPost" @hasImage="hasImage"></TacticalBoardField>
+        <TacticalBoardButtons
             @captureBoard="captureBoard"
             @_changePlayers="_changePlayers"
             @_onClickText="_onClickText"
@@ -11,10 +11,13 @@
             @upLoadImages="upLoadImages"
             :isPost="isPost"
             ref="buttons"
-        ></tactical-board-buttons>
+        ></TacticalBoardButtons>
     </div>
 </template>
 <script>
+import TacticalBoardButtons from "./TacticalBoardButtons.vue";
+import TacticalBoardField from "./TacticalBoardField.vue";
+
 export default {
     props: ["isPost"],
     data: function () {
@@ -53,6 +56,10 @@ export default {
     },
     mounted: function () {
         console.log(this.isPost);
+    },
+    components: {
+        TacticalBoardButtons,
+        TacticalBoardField
     }
 };
 </script>

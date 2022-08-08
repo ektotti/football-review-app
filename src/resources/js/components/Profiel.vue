@@ -69,11 +69,11 @@
             </div>
         </div>
         <portal to="modal">
-            <Modal v-if="showModal">
-                <RelationShipList
+            <Modal v-if="showModal" :showModal="showModal">
+                <ModalContentRelationShipList
                     :args="args"
                     @contentBtnClick="showModal = false"
-                ></RelationShipList>
+                ></ModalContentRelationShipList>
             </Modal>
         </portal>
     </div>
@@ -81,7 +81,8 @@
 <script>
 import PortalVue from "portal-vue";
 import Axios from "axios";
-import RelationShipList from "./RelationShipList.vue";
+import ModalContentRelationShipList from "./ModalContentRelationShipList.vue";
+import Modal from "./Modal.vue";
 
 Vue.use(PortalVue);
 export default {
@@ -130,8 +131,8 @@ export default {
             );
             this.args.relationList = response.data.followList;
             this.args.relationType = "follow";
-            console.log("profiel", this.args.relationList);
             this.showModal = true;
+            console.log(this.showModal);
         },
         showFollowers: async function () {
             let response = await Axios.get(
@@ -139,10 +140,13 @@ export default {
             );
             this.args.relationList = response.data.followerList;
             this.args.relationType = "follower";
-            console.log(this.args.relationList);
             this.showModal = true;
+            console.log(this.args.relationList);
         },
     },
-    components: { RelationShipList },
+    components: {
+        ModalContentRelationShipList,
+        Modal,
+    },
 };
 </script>

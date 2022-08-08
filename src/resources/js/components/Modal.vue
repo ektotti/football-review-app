@@ -1,21 +1,29 @@
 <template>
-    <div class="modal-base row justify-content-center">
-        <div class="modal-overlay text-center"></div>
-        <slot></slot>
-    </div>
+    <transition name="fade">
+        <div class="modal-base row justify-content-center" v-if="showModal">
+            <div class="modal-overlay text-center"></div>
+            <slot></slot>
+        </div>
+    </transition>
 </template>
 
 <script>
-import SetPostions from "./SetPostions";
-import DeletePost from "./DeletePost";
-import CreatePostInfo from "./CreatePostInfo";
-import RelationShipList from "./RelationShipList.vue";
+import ModalContentSetPostions from "./ModalContentSetPostions";
+import ModalContentPostDelete from "./ModalContentPostDelete.vue";
+import ModalContentPostCreationInfo from "./ModalContentPostCreationInfo.vue";
+import ModalContentRelationShipList from "./ModalContentRelationShipList.vue";
 export default {
-    components: {
-        DeletePost,
-        SetPostions,
-        CreatePostInfo,
-        RelationShipList
+    props: {
+        showModal: "",
     },
+    components: {
+        ModalContentSetPostions,
+        ModalContentPostDelete,
+        ModalContentPostCreationInfo,
+        ModalContentRelationShipList,
+    },
+    mounted: function (){
+        console.log(this.showModal);
+    }
 };
 </script>

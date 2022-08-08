@@ -1,36 +1,32 @@
 <template>
     <div id="field" class="tactical-board-field justify-content-center">
         <HometeamPlayers
-            v-for="(
-                hometeamPlayersInPosition, key
-            ) in hometeamPlayersInPositions"
+            v-for="(hometeamPlayer, key) in hometeamPlayers"
             :key="'home' + key"
-            :class-name="hometeamPlayersInPosition.position"
-            :number="hometeamPlayersInPosition.number"
-            :name="hometeamPlayersInPosition.name | formatPlayerName"
+            :class-name="hometeamPlayer.position"
+            :number="hometeamPlayer.number"
+            :name="hometeamPlayer.name | formatPlayerName"
         >
         </HometeamPlayers>
         <Ball></Ball>
         <AwayteamPlayers
-            v-for="(
-                awayteamPlayersInPosition, key
-            ) in awayteamPlayersInPositions"
+            v-for="(awayteamPlayer, key) in awayteamPlayers"
             :key="'away' + key"
-            :class-name="awayteamPlayersInPosition.position"
-            :number="awayteamPlayersInPosition.number"
-            :name="awayteamPlayersInPosition.name | formatPlayerName"
+            :class-name="awayteamPlayer.position"
+            :number="awayteamPlayer.number"
+            :name="awayteamPlayer.name | formatPlayerName"
         >
         </AwayteamPlayers>
         <Canvas ref="canvas"></Canvas>
         <portal to="modal">
-            <Modal v-if="showModal">
-                <SetPostions
+            <Modal :showModal="showModal">
+                <ModalContentSetPostions
                     @contentBtnClick="setPlayers"
-                    :homeTeamPlayers="homeTeamPlayers"
+                    :hometeamPlayers="hometeamPlayers"
                     :awayteamPlayers="awayteamPlayers"
                     :hometeamName="hometeamName"
                     :awayteamName="awayteamName"
-                ></SetPostions>
+                ></ModalContentSetPostions>
             </Modal>
         </portal>
     </div>
@@ -41,11 +37,10 @@ import Canvas from "./Canvas.vue";
 import HometeamPlayers from "./HometeamPlayers.vue";
 import AwayteamPlayers from "./AwayteamPlayers.vue";
 import Modal from "./Modal.vue";
+import ModalContentSetPostions from "./ModalContentSetPostions.vue";
+import Ball from "./Ball.vue";
 import PortalVue from "portal-vue";
 import html2canvas from "html2canvas";
-import Ball from "./Ball.vue";
-import Ball1 from "./Ball.vue";
-import SetPostions from "./SetPostions.vue";
 
 Vue.use(PortalVue);
 export default {
@@ -54,10 +49,23 @@ export default {
         return {
             hometeamPlayers: {},
             awayteamPlayers: {},
-            hometeamName,
-            awayteamName,
-            showModal: true,
+            hometeamName: "",
+            awayteamName: "",
+            showModal: false,
             images: [],
+            startingMemberKeys: [
+                "player_1",
+                "player_2",
+                "player_3",
+                "player_4",
+                "player_5",
+                "player_6",
+                "player_7",
+                "player_8",
+                "player_9",
+                "player_10",
+                "player_11",
+            ],
         };
     },
     methods: {
@@ -70,7 +78,7 @@ export default {
             let canvas = await html2canvas(this.$el, {
                 scale: 2,
             });
-            let canvasData = await canvas.toDataURL("image/jpeg");//awaitいらないのでは？？
+            let canvasData = await canvas.toDataURL("image/jpeg"); //awaitいらないのでは？？
 
             if (this.isPost) {
                 this.images.push(canvasData);
@@ -85,8 +93,8 @@ export default {
             }
         },
         setPlayers: function (...args) {
-            this.hometeamPlayersInPositions = args[0][0];
-            this.awayteamPlayersInPositions = args[0][1];
+            this.hometeamPlayers = args[0][0];
+            this.awayteamPlayers = args[0][1];
             this.showModal = false;
             console.log(this.showModal);
         },
@@ -100,7 +108,7 @@ export default {
         upLoadImages: async function (e) {
             let imagesFromSession =
                 JSON.parse(sessionStorage.getItem("images")) ?? [];
-            let   fileList = e.target.files;
+            let fileList = e.target.files;
             if (imagesFromSession.length + fileList.length > 4) {
                 alert("1度に投稿できる画像は4枚までです。");
                 return;
@@ -128,6 +136,17 @@ export default {
         hasImage: function () {
             this.$emit("hasImage");
         },
+        setPositionProp: function (players) {
+            for (let key in players) {
+                if (this.startingMemberKeys.includes(key)) {
+                    players[key].postion = "";
+                    console.log(players[key]);
+                } else {
+                    players[key].position = "RESERVE";
+                }
+            }
+            return players;
+        },
     },
     mounted: async function () {
         this.removeImagesFromSession();
@@ -140,7 +159,9 @@ export default {
             this.awayteamPlayers = this.setPositionProp(this.awayteamPlayers);
             this.hometeamName = response.data.hometeamName;
             this.awayteamName = response.data.awayteamName;
+            this.showModal = true;
         } catch (error) {
+            console.log(error);
             alert(
                 "playerが取得出来ませんでした。時間をおいてやり直して見て下さい。"
             );
@@ -153,8 +174,7 @@ export default {
         Modal,
         Canvas,
         Ball,
-        Ball1,
-        SetPostions,
+        ModalContentSetPostions,
     },
 };
 </script>
