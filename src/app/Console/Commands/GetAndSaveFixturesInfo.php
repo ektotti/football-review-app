@@ -51,7 +51,7 @@ class GetAndSaveFixturesInfo extends Command
                 continue;
             }
             $fixture = new Fixture;
-            $resutl = $fixture->fill($fixtureInfo)->save();
+            $fixture->fill($fixtureInfo)->save();
         }
     }
 }

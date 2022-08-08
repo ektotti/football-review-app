@@ -98,21 +98,19 @@
         </ul>
         <portal to="modal">
             <Modal
-                v-if="showModal"
+                :showModal="showModal"
             >
-            <DeletePost
+            <ModalContentPostDelete
                 :args="{ postId: post.id }"
                 @contentBtnClick="showModal = false"
-            ></DeletePost>
+            ></ModalContentPostDelete>
             </Modal>
         </portal>
     </div>
 </template>
 <script>
-import Modal from "./Modal.vue";
 import PortalVue from "portal-vue";
-import Axios from "axios";
-import DeletePost from "./DeletePost.vue";
+import ModalContentPostDelete from "./ModalContentPostDelete";
 Vue.use(PortalVue);
 export default {
     props: {
@@ -159,8 +157,7 @@ export default {
         },
     },
     components: {
-    Modal,
-    DeletePost
+    ModalContentPostDelete
 },
 };
 </script>
