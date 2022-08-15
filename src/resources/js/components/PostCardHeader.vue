@@ -26,7 +26,7 @@
             <h3 class="col-6 mb-0 h5 text-center px-2">{{ post.title }}</h3>
             <a
                 class="col-3 px-0 justify-content-center btn"
-                :href="'/create/board/' + post.fixture.id"
+                :href="'/create/board?fixture_id=' + post.fixture.id"
             >
                 <div class="row col-12 px-2 m-0">
                     <span class="col-5 px-0 text-center">{{

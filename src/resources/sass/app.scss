@@ -14,7 +14,7 @@
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
 body {
-    background-image: url("../images/body_bg_image.jpeg");
+    background-image: url("../../public/images/body_bg_image.jpeg");
     background-position: center;
     background-size: 100%;
 }
@@ -99,7 +99,7 @@ body {
     &-field {
         position: relative;
         width: 100%;
-        background-image: url("../images/lineup-pitch.jpeg");
+        background-image: url("../../public/images/lineup-pitch.jpeg");
         aspect-ratio: 845/545;
         background-repeat: no-repeat;
         background-size: 100% 100%;
@@ -110,7 +110,7 @@ body {
         top:50%;
         left:50%;
         transform: translate(-50%, -50%);
-        background-image: url("../images/soccer-ball.png");
+        background-image: url("../../public/images/soccer-ball.png");
         background-repeat: no-repeat;
         background-size: 100% 100%;
         background-position: center;

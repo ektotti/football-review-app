@@ -60,7 +60,7 @@ export default {
     mounted: async function () {
         if (!this.isComingSoon) {
             let response = await Axios.get(
-                "https://football-review-app.net/api/fixture/recent"
+                "/api/fixture/recent"
             );
             console.log(response);
             this.fixtures = response.data.data;
@@ -69,7 +69,7 @@ export default {
         }
         if (this.isComingSoon) {
             let response = await Axios.get(
-                "https://football-review-app.net/api/fixture/coming_soon"
+                "/api/fixture/coming_soon"
             );
             this.fixtures = response.data.data;
             this.nextPageUrl = response.data.next_page_url;

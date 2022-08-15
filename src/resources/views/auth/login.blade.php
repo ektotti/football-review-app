@@ -58,7 +58,7 @@
                                 </button>
 
                                 <a class="btn btn-danger" href="/login/google">
-                                    'Google'
+                                    Google
                                 </a>
 
                                 @if (Route::has('password.request'))
