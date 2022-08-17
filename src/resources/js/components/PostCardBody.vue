@@ -109,6 +109,7 @@
     </div>
 </template>
 <script>
+import Axios from "axios";
 import PortalVue from "portal-vue";
 import ModalContentPostDelete from "./ModalContentPostDelete";
 Vue.use(PortalVue);

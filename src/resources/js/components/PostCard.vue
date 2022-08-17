@@ -63,15 +63,17 @@ export default {
     },
     methods: {
         infiniteHandler: async function ($state) {
-            
-            if(this.hasMorePage) {
-                console.log(this.tagName);
+            if (this.hasMorePage) {
                 let url = this.tagName
                     ? `/post-list/${this.tagName}?page=${this.page}`
                     : `/post-list?page=${this.page}`;
 
                 let response = await Axios.get(url);
-                
+
+                if (response.data.errorMessage) {
+                    alert(response.data.errorMessage);
+                    $state.complete();
+                }
                 for (let PostObj of response.data.data) {
                     PostObj.images = this.getImageName(PostObj);
                     this.posts.push(PostObj);
@@ -107,7 +109,7 @@ export default {
         infinitLoading,
         PostCardHeader,
         PostCardBody,
-        PostCardFooter
+        PostCardFooter,
     },
 };
 </script>

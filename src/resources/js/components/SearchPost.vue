@@ -1,7 +1,7 @@
 <template>
     <li class="input-group input-group-sm">
         <div class="input-group-prepend">
-            <a :href="`/?tag_name=${tagName}`" class="input-group-text" id="search-post">
+            <a :href="`/home?tag_name=${tagNameWithoutHashTag}`" class="input-group-text" id="search-post">
                 <i class="fa-solid fa-magnifying-glass fa-sm"></i>
             </a>
         </div>
@@ -18,8 +18,13 @@
 export default {
     data: function () {
         return {
-            tagName: '',
+            tagName: "",
         };
     },
+    computed: {
+      tagNameWithoutHashTag:function() {
+        return this.tagName.replace("#","");
+      } 
+    }
 }
 </script>

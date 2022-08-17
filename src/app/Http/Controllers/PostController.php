@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 
-use function Psy\debug;
-
 class PostController extends Controller
 {
 
@@ -62,8 +60,9 @@ class PostController extends Controller
             }
 
             $insertedPost = $post->create($columns);
-
-            $tagIds = Tag::saveTagsAndGetIdsFromText($request->body);
+            Log::debug("body");
+            Log::debug($request->textContent);
+            $tagIds = Tag::saveTagsAndGetIdsFromText($request->textContent);
             if ($tagIds) {
                 $insertedPost->tags()->sync($tagIds);
             }

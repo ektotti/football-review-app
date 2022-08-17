@@ -30,7 +30,7 @@ Route::get('/create/prepare', '\App\Http\Controllers\PrecreateController@index')
 Route::get('/create/board', '\App\Http\Controllers\PrecreateController@board')->middleware('auth');
 
 Route::resource('/post','\App\Http\Controllers\PostController', ['only'=>['create', 'store', 'show', 'update', 'destroy']])->middleware('auth');
-Route::get('/post-list', '\App\Http\Controllers\GetPostsController');
+Route::get('/post-list/{tag_name?}', '\App\Http\Controllers\GetPostsController');
 Route::resource('/user','\App\Http\Controllers\UserController', ['only'=>['show', 'edit', 'update', 'destroy']])->middleware('auth');
 Route::resource('/comment','\App\Http\Controllers\CommentController', ['only'=>['store']])->middleware('auth');
 

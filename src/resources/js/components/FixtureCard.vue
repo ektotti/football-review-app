@@ -62,7 +62,6 @@ export default {
             let response = await Axios.get(
                 "/api/fixture/recent"
             );
-            console.log(response);
             this.fixtures = response.data.data;
             this.nextPageUrl = response.data.next_page_url;
             this.prevPageUrl = response.data.prev_page_url;
@@ -75,7 +74,6 @@ export default {
             this.nextPageUrl = response.data.next_page_url;
             this.prevPageUrl = response.data.prev_page_url;
         }
-        console.log(this.nextPageUrl);
     },
     methods: {
         goNextPage: async function () {
