@@ -11,14 +11,22 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Scripts -->
+    @if(env('APP_ENV')==='local')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    @else
     <script src="{{ secure_asset('js/app.js') }}" defer></script>
+    @endif
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    @if(env('APP_ENV')==='local')
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @else
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    @endif
 </head>
 
 <body>

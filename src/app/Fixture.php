@@ -11,7 +11,7 @@ class Fixture extends Model
         'id',
     ];
 
-    public function member()
+    public function members()
     {
         $this->hasMany('App\Member');
     }

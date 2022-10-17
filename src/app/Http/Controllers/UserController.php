@@ -74,7 +74,7 @@ class UserController extends Controller
             if ($request->file('image')) {
 
                 if ($user->icon_image) {
-                    Storage::dist('s3')->delete($user->icon_image);
+                    Storage::disk('s3')->delete($user->icon_image);
                 }
 
                 $imageName = Storage::disk('s3')

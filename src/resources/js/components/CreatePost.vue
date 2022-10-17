@@ -106,6 +106,7 @@ export default {
                     error.response.status === 422
                         ? error.response.data.errors
                         : error.response.data.message;
+                console.log(error.response);
                 if (typeof errors === "object") {
                     for (let key in errors) {
                         alert(errors[key][0]);

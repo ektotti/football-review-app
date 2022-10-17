@@ -2773,13 +2773,14 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
                   this.removeImagesFromSession();
                 }
 
-                _context.next = 12;
+                _context.next = 13;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 errors = _context.t0.response.status === 422 ? _context.t0.response.data.errors : _context.t0.response.data.message;
+                console.log(_context.t0.response);
 
                 if (_typeof(errors) === "object") {
                   for (key in errors) {
@@ -2789,7 +2790,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
                   alert(errors);
                 }
 
-              case 12:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -85178,16 +85179,7 @@ var render = function () {
             "profiel-inner row col-8 justify-content-center mx-auto py-3",
         },
         [
-          _c("div", { staticClass: "profiel-inner-icon col-4" }, [
-            _c("img", {
-              staticClass: "rounded",
-              attrs: {
-                src: _vm.selectedUser.icon_image,
-                alt: "Icon",
-                width: "150",
-              },
-            }),
-          ]),
+          _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "profiel-inner-content col-8" }, [
             _c("div", { staticClass: "upside row py-2 align-items-center" }, [
@@ -85364,7 +85356,19 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profiel-inner-icon col-4" }, [
+      _c("img", {
+        staticClass: "rounded",
+        attrs: { src: "selectedUser.icon_image", alt: "Icon", width: "150" },
+      }),
+    ])
+  },
+]
 render._withStripped = true
 
 

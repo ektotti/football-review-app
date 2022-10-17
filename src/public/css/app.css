@@ -4411,7 +4411,7 @@ input[type=button].btn-block {
 .card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  background-color: rgba(208, 241, 172, 0.7294117647);
+  background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-header:first-child {
@@ -4420,7 +4420,7 @@ input[type=button].btn-block {
 
 .card-footer {
   padding: 0.75rem 1.25rem;
-  background-color: rgba(208, 241, 172, 0.7294117647);
+  background-color: rgba(0, 0, 0, 0.03);
   border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-footer:last-child {
@@ -20443,7 +20443,7 @@ body {
   background-color: white;
 }
 #post-card #edit-post-form {
-  background-color: rgba(208, 241, 172, 0.7294117647);
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .modal-content-lineup li {

@@ -8,17 +8,11 @@ use Faker\Generator as Faker;
 $factory->define(Post::class, function (Faker $faker) {
     return [
         'title'=>$faker->sentence,
-        // 'user_id'=> function () {
-        //     return factory(App\User::class)->create()->id;
-        // },
-        'user_id'=>rand(1, 25),
-        'fixture_id'=> function (){
-            return factory(App\Fixture::class)->create()->id;
-        },
+        'fixture_id'=> rand(1, 60),
         'body'=>$faker->realText,
-        'image1'=>$faker->imageurl,
-        'image2'=>$faker->imageurl,
-        'image3'=>$faker->imageurl,
-        'image4'=>$faker->imageurl,
+        'image1'=>'/storage/image/sample_post_image',
+        'image2'=>'/storage/image/sample_post_image',
+        'image3'=>'/storage/image/sample_post_image',
+        'image4'=>'/storage/image/sample_post_image',
     ];
 });

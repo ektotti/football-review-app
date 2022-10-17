@@ -9,10 +9,12 @@ use App\Post;
 use App\Tag;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Service\ImageService;
+use App\Service\PostService;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Uuid;
+
 
 class PostController extends Controller
 {
@@ -33,43 +35,22 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostStoreRequest $request)
+    public function store(PostStoreRequest $request, ImageService $imageService, PostService $postService)
     {
         try {
             DB::beginTransaction();
+            $imageStoragePath = 'posts/';
+            $imagePath = $imageService->saveImagesAndGetImagePath($imageStoragePath, $request->images);
 
             $fixtureId = $request->session()->get('fixture_id');
-            $user = Auth::user();
-            $post = new Post;
-            $columns = [
-                'user_id' => $user->id,
-                'fixture_id' => $fixtureId,
-                'title' => $request->title,
-                'body' => $request->textContent,
-            ];
+            $postId = $postService->storePost($request, $fixtureId, $imagePath);
+            $postService->storeTagsAndRelateToPost($request->textContent, $postId);
 
-            for ($i = 0; $i < count($request->images); $i++) {
-                $image_number = $i + 1;
-                $imageData = $request->images[$i];
-                $imageData = preg_replace("/data\:image\/jpeg\;base64,/", '', $imageData);
-                $image = base64_decode($imageData);
-                $fileName = Uuid::uuid4() . '.jpeg';
-                Storage::disk('s3')->put("posts/{$fileName}", $image);
-                $url = Storage::disk('s3')->url("posts/{$fileName}");
-                $columns["image{$image_number}"] = $url;
-            }
-
-            $insertedPost = $post->create($columns);
-            Log::debug("body");
-            Log::debug($request->textContent);
-            $tagIds = Tag::saveTagsAndGetIdsFromText($request->textContent);
-            if ($tagIds) {
-                $insertedPost->tags()->sync($tagIds);
-            }
             DB::commit();
         } catch (Exeption $e) {
             DB::rollBack();
-            report($e->getMessage());
+            $imageService->deleteFromStorage($imagePath);
+            Log::debug($e->getMessage);
             return json_decode($e->getMessage());
         }
     }

@@ -7,10 +7,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Fixture::class, function (Faker $faker) {
     return [
-        'match_week'=>rand(0, 30),
-        'hometeam_name'=>$faker->company,
-        'awayteam_name'=>$faker->company,
-        'fixture_date_time'=>$faker->dateTime,
+        'match_week'=>$faker->numberBetween(1, 30),
+        'hometeam_name'=>$faker->city,
+        'awayteam_name'=>$faker->city,
+        'fixture_date_time'=>$faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = 'Asia/Tokyo'),
         'fixture_url'=>$faker->url,
     ];
 });

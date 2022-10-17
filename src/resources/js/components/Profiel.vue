@@ -6,7 +6,7 @@
             <div class="profiel-inner-icon col-4">
                 <img
                     class="rounded"
-                    :src="selectedUser.icon_image"
+                    src="selectedUser.icon_image"
                     alt="Icon"
                     width="150"
                 />
