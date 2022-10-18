@@ -30,4 +30,40 @@ class PostRepository implements PostRepositoryInterface
         }
         return $tagIds;
     }
+
+    public function getByTagName($tagName)
+    {
+        $tag = Tag::where('tag_name', "#$tagName")->has('post')->with(['post'])->get();
+        if (empty($tag->toArray())) {
+            return false;
+        }
+        $postIds = [];
+        foreach ($tag[0]->post as $post) {
+            array_push($postIds, $post->pivot->post_id);
+        };
+        return Post::wherein('id', $postIds)
+        ->with(['user', 'fixture', 'comments.user', 'likes'])
+        ->orderby('updated_at', 'desc');
+    }
+
+    public function getByUserId($userId)
+    {
+        return Post::where('user_id', $userId)
+        ->with(['user', 'fixture', 'comments.user', 'likes'])
+        ->orderby('updated_at', 'desc');
+    }
+
+    public function getFollowingPost($userId)
+    {
+        $followingUserId = Relationship::where('user_id', $userId)->get()->pluck('following_user_id');
+        $followingUserIdList = $followingUserId->toArray();
+        array_push($followingUserIdList, $userId);
+        return Post::with(['user', 'fixture', 'comments.user', 'likes'])->whereIn('user_id', $followingUserIdList)->orderby('updated_at', 'desc');
+    }
+
+    public function getAllPost()
+    {
+        return Post::with(['user', 'fixture', 'comments.user', 'likes'])->orderby('updated_at', 'desc');
+    }
 }
+
