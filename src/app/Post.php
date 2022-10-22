@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Tag;
 use App\Relationship;
 use Illuminate\Support\Facades\Log;
-
 use function Psy\debug;
 
 class Post extends Model
@@ -54,38 +53,38 @@ class Post extends Model
         return false;
     }
 
-    static function getByTagName($tagName)
-    {
-        $tag = Tag::where('tag_name', "#$tagName")->has('post')->with(['post'])->get();
-        Log::debug($tag);
-        if (empty($tag->toArray())) {
-            Log::debug('タグなし');
-            return false;
-        }
-        $postIds = [];
-        foreach ($tag[0]->post as $post) {
-            array_push($postIds, $post->pivot->post_id);
-        };
-        return Post::wherein('id', $postIds)->with(['user', 'fixture', 'comments.user', 'likes'])->orderby('updated_at', 'desc');
-    }
+    // static function getByTagName($tagName)
+    // {
+    //     $tag = Tag::where('tag_name', "#$tagName")->has('post')->with(['post'])->get();
+    //     Log::debug($tag);
+    //     if (empty($tag->toArray())) {
+    //         Log::debug('タグなし');
+    //         return false;
+    //     }
+    //     $postIds = [];
+    //     foreach ($tag[0]->post as $post) {
+    //         array_push($postIds, $post->pivot->post_id);
+    //     };
+    //     return Post::wherein('id', $postIds)->with(['user', 'fixture', 'comments.user', 'likes'])->orderby('updated_at', 'desc');
+    // }
 
-    static function getByUserId($userId)
-    {
-        return Post::where('user_id', $userId)->with(['user', 'fixture', 'comments.user', 'likes'])->orderby('updated_at', 'desc');
-    }
+    // static function getByUserId($userId)
+    // {
+    //     return Post::where('user_id', $userId)->with(['user', 'fixture', 'comments.user', 'likes'])->orderby('updated_at', 'desc');
+    // }
 
-    static function getAllIndexPost()
-    {
-        return Post::with(['user', 'fixture', 'comments.user', 'likes'])->orderby('updated_at', 'desc');
-    }
+    // static function getAllIndexPost()
+    // {
+    //     return Post::with(['user', 'fixture', 'comments.user', 'likes'])->orderby('updated_at', 'desc');
+    // }
 
-    static function getFollowingPost($userId)
-    {
-        $followingUserId = Relationship::where('user_id', $userId)->get()->pluck('following_user_id');
-        $followingUserIdList = $followingUserId->toArray();
-        array_push($followingUserIdList, $userId);
-        return Post::with(['user', 'fixture', 'comments.user', 'likes'])->whereIn('user_id', $followingUserIdList)->orderby('updated_at', 'desc');
-    }
+    // static function getFollowingPost($userId)
+    // {
+    //     $followingUserId = Relationship::where('user_id', $userId)->get()->pluck('following_user_id');
+    //     $followingUserIdList = $followingUserId->toArray();
+    //     array_push($followingUserIdList, $userId);
+    //     return Post::with(['user', 'fixture', 'comments.user', 'likes'])->whereIn('user_id', $followingUserIdList)->orderby('updated_at', 'desc');
+    // }
 
     public function checkIsSelf()
     {

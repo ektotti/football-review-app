@@ -5,6 +5,8 @@ namespace App\Service;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PostRepositoryInterface;
 use App\Post;
+use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 
 class PostService
 {
@@ -64,35 +66,18 @@ class PostService
 
     public function getSearchedPosts($tagName)
     {
-        $posts = [];
-        $postsQuelyBuilder = Post::getByTagName($tagName);
-        if (!($postsQuelyBuilder)) {
-            return ["errorMessage"=>"投稿が存在しません"];
-        }
-        $paginatePosts = $postsQuelyBuilder->simplePaginate(3);
-        $posts = $paginatePosts->toArray();
-        $posts += array("hasMorePage" => $paginatePosts->hasMorePages());
-        return $posts;
+        return $this->postRepository->getByTagName($tagName);   
     }
 
     public function getUserPagePosts($refererPath)
     {
         $posts = [];
         $userId = str_replace("/user/", "", $refererPath);
-        $postsQuelyBuilder = Post::getByUserId($userId);
-        $paginatePosts = $postsQuelyBuilder->simplePaginate(3);
-        $posts = $paginatePosts->toArray();
-        $posts += array("hasMorePage" => $paginatePosts->hasMorePages());
-        return $posts;
+        return $this->postRepository->getByUserId($userId);
     }
 
     public function getIndexPosts()
     {
-        $posts = [];
-        $postsQuelyBuilder = Auth::check() ? Post::getFollowingPost(Auth::id()) : Post::getAllIndexPost();
-        $paginatePosts = $postsQuelyBuilder->simplePaginate(3);
-        $posts = $paginatePosts->toArray();
-        $posts += array("hasMorePage" => $paginatePosts->hasMorePages());
-        return $posts;
+        return Auth::check() ? $this->postRepository->getFollowingPost(Auth::id) : $this->postRepository->getAllPost();
     }
 }
