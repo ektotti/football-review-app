@@ -13,20 +13,18 @@ class GetPostsController extends Controller
     {
 
         if ($request->tag_name) {
-            return $postService->getSearchedPosts($request->tag_name);
+            return new PostCollection($postService->getSearchedPosts($request->tag_name));
         }
 
         $indexPosts = $postService->getIndexPosts();
         return new PostCollection($indexPosts);
         
-        // $refererUrl = parse_url($_SERVER['HTTP_REFERER']);
-        // $refererPath = $refererUrl['path'];
-        // if (preg_match("/\/user\/\d+/", $refererPath)) {
-        //     $selectedUserPosts = $postService->getUserPagePosts($refererPath);
-        //     return $selectedUserPosts;
-        // } else {
-        //     $indexPosts = $postService->getIndexPosts();
-        //     return $indexPosts;
-        // }
+        $refererUrl = parse_url($_SERVER['HTTP_REFERER']);
+        $refererPath = $refererUrl['path'];
+        if (preg_match("/\/user\/\d+/", $refererPath)) {
+            return new PostCollection($postService->getUserPagePosts($refererPath));
+        } else {
+            return new PostCollection($postService->getIndexPosts());
+        }
     }
 }

@@ -4,9 +4,6 @@ namespace App\Service;
 
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PostRepositoryInterface;
-use App\Post;
-use App\Http\Resources\PostCollection;
-use App\Http\Resources\PostResource;
 
 class PostService
 {
@@ -71,7 +68,6 @@ class PostService
 
     public function getUserPagePosts($refererPath)
     {
-        $posts = [];
         $userId = str_replace("/user/", "", $refererPath);
         return $this->postRepository->getByUserId($userId);
     }
