@@ -152,9 +152,9 @@ export default {
         this.removeImagesFromSession();
         try {
             let fixtureIdParam = location.search;
-            let response = await axios.get(`/api/players${fixtureIdParam}`);
-            this.hometeamPlayers = response.data.players.hometeamPlayers;
-            this.awayteamPlayers = response.data.players.awayteamPlayers;
+            let response = await axios.get(`/api/fixture/${fixtureIdParam}`);
+            this.hometeamPlayers = response.data.members[0].status === "home" ? response.data.members[0].players : response.data.members[1].players;
+            this.awayteamPlayers = response.data.members[0].status === "away" ? response.data.members[0].players : response.data.members[1].players;
             this.hometeamPlayers = this.setPositionProp(this.hometeamPlayers);
             this.awayteamPlayers = this.setPositionProp(this.awayteamPlayers);
             this.hometeamName = response.data.hometeamName;

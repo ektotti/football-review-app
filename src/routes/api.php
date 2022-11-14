@@ -17,6 +17,6 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/players', '\App\Http\Controllers\GetMemberController');
 Route::get('/fixture/recent', '\App\Http\Controllers\FixtureController@getRecentFixtures');
 Route::get('/fixture/coming_soon', '\App\Http\Controllers\FixtureController@getComingSoonFixtures');
+Route::get('/fixture', '\App\Http\Controllers\FixtureController@getWithMember');

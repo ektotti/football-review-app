@@ -13,7 +13,7 @@ class Fixture extends Model
 
     public function members()
     {
-        $this->hasMany('App\Member');
+       return $this->hasMany('App\Member');
     }
 
     public function post()

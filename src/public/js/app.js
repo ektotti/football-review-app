@@ -3513,7 +3513,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   $state.complete();
                 }
 
-                _iterator = _createForOfIteratorHelper(response.data.data);
+                _iterator = _createForOfIteratorHelper(response.data.data.data);
 
                 try {
                   for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -4811,12 +4811,12 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
               _context3.prev = 1;
               fixtureIdParam = location.search;
               _context3.next = 5;
-              return axios.get("/api/players".concat(fixtureIdParam));
+              return axios.get("/api/fixture/".concat(fixtureIdParam));
 
             case 5:
               response = _context3.sent;
-              this.hometeamPlayers = response.data.players.hometeamPlayers;
-              this.awayteamPlayers = response.data.players.awayteamPlayers;
+              this.hometeamPlayers = response.data.members[0].status === "home" ? response.data.members[0].players : response.data.members[1].players;
+              this.awayteamPlayers = response.data.members[0].status === "away" ? response.data.members[0].players : response.data.members[1].players;
               this.hometeamPlayers = this.setPositionProp(this.hometeamPlayers);
               this.awayteamPlayers = this.setPositionProp(this.awayteamPlayers);
               this.hometeamName = response.data.hometeamName;
