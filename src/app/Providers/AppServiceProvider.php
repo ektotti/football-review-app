@@ -10,6 +10,7 @@ use App\Repositories\FixtureRepositoryInterface;
 use App\Repositories\FixtureRepository;
 use App\UseCase\GetFixturesInfo;
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -53,5 +54,6 @@ class AppServiceProvider extends ServiceProvider
         //     \URL::forceScheme('https');
         // }
         Resource::withoutWrapping();
+        ResourceCollection::withoutWrapping();
     }
 }

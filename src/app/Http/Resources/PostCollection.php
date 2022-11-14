@@ -44,8 +44,6 @@ class PostCollection extends ResourceCollection
                 "likes" => $post->likes,
             ];
         });
-        return [
-            "data" => $this->collection,
-        ];
+        return $this->collection;
     }
 }

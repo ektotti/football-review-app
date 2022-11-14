@@ -69,7 +69,6 @@ export default {
                     : `/post-list?page=${this.page}`;
 
                 let response = await Axios.get(url);
-                console.log(response);
                 if (response.data.errorMessage) {
                     alert(response.data.errorMessage);
                     $state.complete();
@@ -79,7 +78,7 @@ export default {
                     this.posts.push(PostObj);
                 }
                 $state.loaded();
-                this.hasMorePage = response.data.hasMorePage;
+                this.hasMorePage = response.data.links.next ? true : false;
                 this.page += 1;
             } else {
                 $state.complete();
