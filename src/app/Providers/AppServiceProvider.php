@@ -6,7 +6,10 @@ use App\Repositories\ImageRepositoryInterface;
 use App\Repositories\imageRepositoryInLocal;
 use App\Repositories\PostRepository;
 use App\Repositories\PostRepositoryInterface;
+use App\Repositories\FixtureRepositoryInterface;
+use App\Repositories\FixtureRepository;
 use App\UseCase\GetFixturesInfo;
+use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(PostRepositoryInterface::class, function () {
             return new PostRepository;
         });
+
+        app()->bind(FixtureRepositoryInterface::class, function () {
+            return new FixtureRepository;
+        });
     }
 
     /**
@@ -45,5 +52,6 @@ class AppServiceProvider extends ServiceProvider
         // if (env('APP_ENV')==='product') {
         //     \URL::forceScheme('https');
         // }
+        Resource::withoutWrapping();
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PostCollection;
 use Illuminate\Http\Request;
 use App\Service\PostService;
-use Exception;
 
 class GetPostsController extends Controller
 {

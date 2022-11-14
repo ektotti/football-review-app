@@ -50,14 +50,9 @@ class GetAndSaveLineup extends Command
             Member::where('player_1', null)->delete();
 
             $searchFrom = new Carbon('now');
-            Log::debug('cron:'.$searchFrom);
-            // dd($searchFrom);
             $searchTo = new Carbon('+90 minutes');
-            // dd($searchTo);
-
             $fixtures = Fixture::where('fixture_date_time', '>', $searchFrom)->where('fixture_date_time', '<', $searchTo)->get();
 
-            // dd($fixtures);
             $fixtures = $fixtures->toArray();
             if ($fixtures) {
                 foreach ($fixtures as $key => $fixture) {

@@ -14,6 +14,13 @@ class Member extends Model
         return $this->belongsTo('App\Fixture');
     }
 
+    public function getPlayerAttribute() {
+        // dd($this->attributes);
+        return array_filter($this->attributes, function($val, $key){
+            return str_contains($key, 'player') && $val !== null;
+        },ARRAY_FILTER_USE_BOTH);
+    }
+
     static function getSeparetedNameAndNumber($fixtureId, $teamName){
         $playerNmaneAndNumber = Member::getNameAndNumber($fixtureId, $teamName);
         $separetedNameAndNumber = [];

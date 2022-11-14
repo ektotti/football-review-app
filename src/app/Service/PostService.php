@@ -74,6 +74,7 @@ class PostService
 
     public function getIndexPosts()
     {
-        return Auth::check() ? $this->postRepository->getFollowingPost(Auth::id) : $this->postRepository->getAllPost();
+        // return Auth::check() ? $this->postRepository->getFollowingPost(Auth::user()->id) : $this->postRepository->getAllPost();
+        return $this->postRepository->getAllPost();
     }
 }
