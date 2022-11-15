@@ -28,7 +28,7 @@ class PostResource extends JsonResource
             $this->image4 ? array_push($images, Storage::disk('s3')->url($this->image4)): null;
         }
         return [
-            "data"=>[
+            [
                 "id"=> $this->id,
                 "user_id"=> $this->user_id,
                 "fixture_id"=> $this->fixture_id,
@@ -40,14 +40,8 @@ class PostResource extends JsonResource
                 "comments"=> $this->comments,
                 "likes"=> $this->likes,
             ],
-            "first_page_url"=> "http://localhost/post-list?page=1",
-            "from"=> 4,
-            "next_page_url"=> "http://localhost/post-list?page=3",
-            "path"=> "http://localhost/post-list",
-            "per_page"=> 3,
-            "prev_page_url"=> "http://localhost/post-list?page=1",
-            "to"=> 6,
-            "hasMorePage"=> true
+            "isSelf" => $this->checkIsSelf(),
+            "likeThisPost" => $this->checkUserLikePost()
         ];
     }
 }

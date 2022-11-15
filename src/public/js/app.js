@@ -3464,12 +3464,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       type: Boolean,
       "default": false
     },
-    likeThisPost: {
-      type: Boolean
-    },
-    isSelf: {
-      type: Boolean
-    },
     tagName: {
       type: String,
       required: false,
@@ -3496,7 +3490,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this.hasMorePage) {
-                  _context.next = 15;
+                  _context.next = 13;
                   break;
                 }
 
@@ -3506,8 +3500,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 response = _context.sent;
-                console.log(response);
-                console.log(response.data.data);
 
                 if (response.data.errorMessage) {
                   alert(response.data.errorMessage);
@@ -3519,7 +3511,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 try {
                   for (_iterator.s(); !(_step = _iterator.n()).done;) {
                     PostObj = _step.value;
-                    PostObj.images = this.getImageName(PostObj);
+                    ;
                     this.posts.push(PostObj);
                   }
                 } catch (err) {
@@ -3531,13 +3523,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 $state.loaded();
                 this.hasMorePage = response.data.links.next ? true : false;
                 this.page += 1;
-                _context.next = 16;
+                _context.next = 14;
                 break;
 
-              case 15:
+              case 13:
                 $state.complete();
 
-              case 16:
+              case 14:
               case "end":
                 return _context.stop();
             }
@@ -3550,18 +3542,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return infiniteHandler;
-    }(),
-    getImageName: function getImageName(_ref) {
-      var image1 = _ref.image1,
-          image2 = _ref.image2,
-          image3 = _ref.image3,
-          image4 = _ref.image4;
-      var images = [image1, image2, image3, image4];
-      var imagename = images.filter(function (value) {
-        return value != null;
-      }, images);
-      return imagename;
-    }
+    }()
   },
   mounted: function mounted() {
     if (this.errors) {
@@ -3571,11 +3552,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
 
     if (!this.isIndex) {
-      this.initPost.images = this.getImageName(this.initPost);
-      this.posts.push(this.initPost);
+      this.posts.push(this.initPost.data);
     }
-
-    console.log(this.errors);
   },
   components: {
     infinitLoading: (vue_infinite_loading__WEBPACK_IMPORTED_MODULE_4___default()),
@@ -84589,8 +84567,8 @@ var render = function () {
               attrs: {
                 post: post,
                 isIndex: _vm.isIndex,
-                likeThisPost: _vm.likeThisPost,
-                isSelf: _vm.isSelf,
+                likeThisPost: _vm.initPost.likeThisPost,
+                isSelf: _vm.initPost.isSelf,
               },
             }),
             _vm._v(" "),

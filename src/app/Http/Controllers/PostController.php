@@ -9,6 +9,7 @@ use App\Post;
 use App\Tag;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Http\Resources\PostResource;
 use App\Service\ImageService;
 use App\Service\PostService;
 use Exception;
@@ -61,13 +62,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, PostService $postService)
     {
-        $post = Post::with(['user', 'fixture', 'comments.user', 'likes'])->get()->find($id);
-        $isSelf = $post->checkIsSelf();
-        $likeThisPost = $post->checkUserLikePost();
-
-        return view('post_detail', compact('post', 'likeThisPost', 'isSelf'));
+        $post = new PostResource($postService->getById($id));
+        return view('post_detail', compact('post'));
     }
 
     /**

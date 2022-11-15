@@ -77,4 +77,9 @@ class PostService
         // return Auth::check() ? $this->postRepository->getFollowingPost(Auth::user()->id) : $this->postRepository->getAllPost();
         return $this->postRepository->getAllPost();
     }
+
+    public function getById($id)
+    {
+        return $this->postRepository->getPostById($id);
+    }
 }

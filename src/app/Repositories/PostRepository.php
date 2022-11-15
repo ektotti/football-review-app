@@ -21,7 +21,7 @@ class PostRepository implements PostRepositoryInterface
 
     public function getPostById($postId)
     {
-        return Post::find($postId);
+        return Post::with(['user', 'fixture', 'comments.user', 'likes'])->find($postId);
     }
 
     public function storeTags($tags)
