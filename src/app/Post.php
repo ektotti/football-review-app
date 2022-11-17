@@ -52,6 +52,7 @@ class Post extends Model
     public function checkIsSelf()
     {
         $loginUser = Auth::user();
+        if(!$loginUser) return false;
         return $this->user_id === $loginUser->id;
     }
 }

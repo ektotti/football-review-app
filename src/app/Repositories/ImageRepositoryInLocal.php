@@ -25,6 +25,9 @@ class ImageRepositoryInLocal implements ImageRepositoryInterface
 
     public function deleteFromStorage($imagePath)
     {
-        return Storage::disk('public')->delete($imagePath);
+        $result = Storage::disk('public')->delete($imagePath);
+        if (!$result) {
+            throw new Exception('何かがおかしいようです。画像を削除できませんでした。');
+        }
     }
 }

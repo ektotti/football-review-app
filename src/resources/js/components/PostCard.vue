@@ -10,8 +10,8 @@
             <PostCardBody
                 :post="post"
                 :isIndex="isIndex"
-                :likeThisPost="likeThisPost"
-                :isSelf="isSelf"
+                :likeThisPost="initPost.likeThisPost"
+                :isSelf="initPost.isSelf"
             ></PostCardBody>
             <PostCardFooter :post="post" v-show="!isIndex"></PostCardFooter>
         </div>
@@ -39,12 +39,6 @@ export default {
             type: Boolean,
             default: false,
         },
-        likeThisPost: {
-            type: Boolean,
-        },
-        isSelf: {
-            type: Boolean,
-        },
         tagName: {
             type: String,
             required: false,
@@ -67,29 +61,23 @@ export default {
                 let url = this.tagName
                     ? `/post-list/${this.tagName}?page=${this.page}`
                     : `/post-list?page=${this.page}`;
-
                 let response = await Axios.get(url);
+
                 if (response.data.errorMessage) {
                     alert(response.data.errorMessage);
                     $state.complete();
                 }
-                for (let PostObj of response.data.data) {
-                    PostObj.images = this.getImageName(PostObj);
+
+                for (let PostObj of response.data.data) {;
                     this.posts.push(PostObj);
                 }
+
                 $state.loaded();
                 this.hasMorePage = response.data.links.next ? true : false;
                 this.page += 1;
             } else {
                 $state.complete();
             }
-        },
-        getImageName: function ({ image1, image2, image3, image4 }) {
-            let images = [image1, image2, image3, image4];
-            let imagename = images.filter(function (value) {
-                return value != null;
-            }, images);
-            return imagename;
         },
     },
     mounted: function () {
@@ -99,10 +87,9 @@ export default {
             }
         }
         if (!this.isIndex) {
-            this.initPost.images = this.getImageName(this.initPost);
+            console.log(this.initPost);
             this.posts.push(this.initPost);
         }
-        console.log(this.errors);
     },
     components: {
         infinitLoading,
