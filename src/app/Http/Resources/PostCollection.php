@@ -41,6 +41,8 @@ class PostCollection extends ResourceCollection
                 "fixture" => $post->fixture,
                 "comments" => $post->comments,
                 "likes" => $post->likes,
+                "isSelf" => $post->checkIsSelf(),
+                "likeThisPost" => $post->checkUserLikePost()
             ];
         });
         return $this->collection;

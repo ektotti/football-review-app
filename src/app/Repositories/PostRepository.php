@@ -6,16 +6,21 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollection;
 use App\Post;
 use App\Tag;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Throwable;
+
+use function PHPUnit\Framework\throwException;
 
 class PostRepository implements PostRepositoryInterface
 {
-    public function storePost($postDetails)
+    public function storePost($postModel)
     {
-        $post = new Post();
-        if ($post->fill($postDetails)->save()) {
-            return $post->id;
+        if ($postModel->save()) {
+            Log::debug($postModel);
+            return $postModel;
         } else {
-            return false;
+            throw new Exception("保存ができませんでした。");
         }
     }
 
@@ -74,5 +79,11 @@ class PostRepository implements PostRepositoryInterface
         return Post::with(['user', 'fixture', 'comments.user', 'likes'])
             ->orderby('updated_at', 'desc')
             ->simplePaginate(5);
+    }
+
+    public function delete($id)
+    {
+       if(!Post::destroy($id)) throw new Exception('何かがおかしいようです。投稿が削除できませんでした。');
+       return true;
     }
 }

@@ -44,14 +44,13 @@ class PostController extends Controller
             $imagePath = $imageService->saveImagesAndGetImagePath($imageStoragePath, $request->images);
 
             $fixtureId = $request->session()->get('fixture_id');
-            $postId = $postService->storePost($request, $fixtureId, $imagePath);
-            $postService->storeTagsAndRelateToPost($request->textContent, $postId);
+            $insertedPost = $postService->storePost($request, $fixtureId, $imagePath);
+            $postService->storeTagsAndRelateToPost($insertedPost);
 
             DB::commit();
         } catch (Exeption $e) {
             DB::rollBack();
             $imageService->deleteFromStorage($imagePath);
-            Log::debug($e->getMessage);
             return json_decode($e->getMessage());
         }
     }
@@ -75,24 +74,21 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostUpdateRequest $request, $id)
+    public function update(PostUpdateRequest $request, PostService $postService, $id)
     {
         try {
             DB::beginTransaction();
-            $selectedPost = Post::where('id', $id)->first();
-            $selectedPost->body = $request->body;
-            $selectedPost->title = $request->title;
-            $selectedPost->save();
-
+            $editedPost = $postService->updatePost($request, $id);
+            $postService->storeTagsAndRelateToPost($editedPost);
             $tagIds = Tag::saveTagsAndGetIdsFromText($request->body);
             if ($tagIds) {
-                $selectedPost->tags()->sync($tagIds);
+                $editedPost->tags()->sync($tagIds);
             }
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            report($e->getMessage());
+            Log::debug("アップデートできません");
         }
     }
 
@@ -102,15 +98,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, PostService $postService, ImageService $imageService)
     {
         DB::beginTransaction();
         try {
-            $post = Post::find($id);
-            $result = Post::destroy($id);
-            if (!$result) {
-                throw new Exception('何かがおかしいようです。投稿が削除できませんでした。');
-            }
+            $post = $postService->getById($id);
+            $postService->delete($id);
 
             $imagePath = [];
             for ($i = 1; $i <= 4; $i++) {
@@ -119,11 +112,7 @@ class PostController extends Controller
                     array_push($imagePath, $image);
                 }
             }
-            $result = Storage::disk('s3')->delete($imagePath);
-            if (!$result) {
-                throw new Exception('何かがおかしいようです。画像を削除できませんでした。');
-            }
-            
+            $imageService->deleteFromStorage($imagePath);                        
             DB::commit();
             return redirect('/');
         } catch (Exception $e) {

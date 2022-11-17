@@ -19,27 +19,27 @@
             <a
                 class="text-body"
                 :href="`/unlike/${post.id}`"
-                v-if="likeThisPost"
+                v-if="post.likeThisPost"
             >
                 <i class="fa-solid fa-heart fa-lg mr-1"></i>
             </a>
             <a
                 class="text-body"
                 :href="`/like/${post.id}`"
-                v-if="!likeThisPost"
+                v-if="!post.likeThisPost"
             >
                 <i class="fa-regular fa-heart fa-lg mr-1"></i>
             </a>
             <span class="mr-3">{{ post.likes.length }}</span>
             <i class="fa-regular fa-comment fa-lg mr-1"></i>
             <span class="mr-3">{{ post.comments.length }}</span>
-            <span class="text-body" href="" v-if="isSelf">
+            <span class="text-body" href="" v-if="post.isSelf">
                 <i
                     class="fa-solid fa-pen-to-square fa-lg mr-2"
                     @click="modifyMode = !modifyMode"
                 ></i>
             </span>
-            <button class="btn" v-if="isSelf">
+            <button class="btn" v-if="post.isSelf">
                 <i
                     class="fa-solid fa-trash fa-lg mr-1"
                     @click="showModal = true"
@@ -70,8 +70,8 @@
                         v-model="post.body"
                         autofocus
                     >
- {{ post.body }} </textarea
-                    >
+                    {{ post.body }} 
+                    </textarea>
                 </div>
                 <button class="btn px-0 mx-auto" @click="modifyPost">
                     <i class="fa-solid fa-paper-plane"></i>
@@ -91,19 +91,21 @@
                 v-for="(comment, index) in post.comments"
                 :key="index"
             >
-                <p class="mb-0" v-if="comment.user.nickname">{{ comment.user.nickname }}</p>
-                <p class="mb-0" v-if="!comment.user.nickname">{{ comment.user.name }}</p>
+                <p class="mb-0" v-if="comment.user.nickname">
+                    {{ comment.user.nickname }}
+                </p>
+                <p class="mb-0" v-if="!comment.user.nickname">
+                    {{ comment.user.name }}
+                </p>
                 <span>{{ comment.body }}</span>
             </li>
         </ul>
         <portal to="modal">
-            <Modal
-                :showModal="showModal"
-            >
-            <ModalContentPostDelete
-                :args="{ postId: post.id }"
-                @contentBtnClick="showModal = false"
-            ></ModalContentPostDelete>
+            <Modal :showModal="showModal">
+                <ModalContentPostDelete
+                    :args="{ postId: post.id }"
+                    @contentBtnClick="showModal = false"
+                ></ModalContentPostDelete>
             </Modal>
         </portal>
     </div>
@@ -120,12 +122,6 @@ export default {
             type: Boolean,
             default: false,
         },
-        likeThisPost: {
-            type: Boolean,
-        },
-        isSelf: {
-            type: Boolean,
-        },
     },
     data: function () {
         return {
@@ -135,8 +131,8 @@ export default {
             csrf: document
                 .querySelector('meta[name="csrf-token"]')
                 .getAttribute("content"),
-            modifiedTitle: '',
-            modifiedBody: '',
+            modifiedTitle: "",
+            modifiedBody: "",
         };
     },
     methods: {
@@ -147,18 +143,17 @@ export default {
                     title: this.post.title,
                     body: this.post.body,
                 });
-                if(response.status === 200) {
-                    alert('投稿が修正出来ました。');
+                if (response.status === 200) {
+                    alert("投稿が修正出来ました。");
                 }
             } catch (error) {
                 console.log(error.response);
-                alert('なんかおかしいです。');
+                alert("なんかおかしいです。");
             }
-
         },
     },
     components: {
-    ModalContentPostDelete
-},
+        ModalContentPostDelete,
+    },
 };
 </script>

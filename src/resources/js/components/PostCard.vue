@@ -87,7 +87,8 @@ export default {
             }
         }
         if (!this.isIndex) {
-            this.posts.push(this.initPost.data);
+            console.log(this.initPost);
+            this.posts.push(this.initPost);
         }
     },
     components: {

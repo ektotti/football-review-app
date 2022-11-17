@@ -3552,7 +3552,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
 
     if (!this.isIndex) {
-      this.posts.push(this.initPost.data);
+      console.log(this.initPost);
+      this.posts.push(this.initPost);
     }
   },
   components: {
@@ -3698,6 +3699,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -3708,12 +3711,6 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
     isIndex: {
       type: Boolean,
       "default": false
-    },
-    likeThisPost: {
-      type: Boolean
-    },
-    isSelf: {
-      type: Boolean
     }
   },
   data: function data() {
@@ -3722,8 +3719,8 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
       showModal: false,
       modifyMode: false,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-      modifiedTitle: '',
-      modifiedBody: ''
+      modifiedTitle: "",
+      modifiedBody: ""
     };
   },
   methods: {
@@ -3746,7 +3743,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
                 response = _context.sent;
 
                 if (response.status === 200) {
-                  alert('投稿が修正出来ました。');
+                  alert("投稿が修正出来ました。");
                 }
 
                 _context.next = 11;
@@ -3756,7 +3753,7 @@ Vue.use(portal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
                 _context.prev = 7;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0.response);
-                alert('なんかおかしいです。');
+                alert("なんかおかしいです。");
 
               case 11:
               case "end":
@@ -84661,7 +84658,7 @@ var render = function () {
             "div",
             { staticClass: "card-body row mb-2 align-items-center py-2" },
             [
-              _vm.likeThisPost
+              _vm.post.likeThisPost
                 ? _c(
                     "a",
                     {
@@ -84672,7 +84669,7 @@ var render = function () {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              !_vm.likeThisPost
+              !_vm.post.likeThisPost
                 ? _c(
                     "a",
                     {
@@ -84693,7 +84690,7 @@ var render = function () {
                 _vm._v(_vm._s(_vm.post.comments.length)),
               ]),
               _vm._v(" "),
-              _vm.isSelf
+              _vm.post.isSelf
                 ? _c(
                     "span",
                     { staticClass: "text-body", attrs: { href: "" } },
@@ -84710,7 +84707,7 @@ var render = function () {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _vm.isSelf
+              _vm.post.isSelf
                 ? _c("button", { staticClass: "btn" }, [
                     _c("i", {
                       staticClass: "fa-solid fa-trash fa-lg mr-1",
@@ -84802,7 +84799,13 @@ var render = function () {
                               },
                             },
                           },
-                          [_vm._v(_vm._s(_vm.post.body) + " ")]
+                          [
+                            _vm._v(
+                              "                " +
+                                _vm._s(_vm.post.body) +
+                                " \n                "
+                            ),
+                          ]
                         ),
                       ]
                     ),
@@ -84832,7 +84835,7 @@ var render = function () {
                 },
               },
             },
-            [_vm._v("\n           コメントを見る\n       ")]
+            [_vm._v("\n        コメントを見る\n    ")]
           )
         : _vm._e(),
       _vm._v(" "),
@@ -84857,13 +84860,21 @@ var render = function () {
                 [
                   comment.user.nickname
                     ? _c("p", { staticClass: "mb-0" }, [
-                        _vm._v(_vm._s(comment.user.nickname)),
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(comment.user.nickname) +
+                            "\n            "
+                        ),
                       ])
                     : _vm._e(),
                   _vm._v(" "),
                   !comment.user.nickname
                     ? _c("p", { staticClass: "mb-0" }, [
-                        _vm._v(_vm._s(comment.user.name)),
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(comment.user.name) +
+                            "\n            "
+                        ),
                       ])
                     : _vm._e(),
                   _vm._v(" "),

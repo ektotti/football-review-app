@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PostRepositoryInterface;
+use App\Post;
 
 class PostService
 {
@@ -30,19 +31,18 @@ class PostService
             $postDetails["image{$i}"] = $imageUrl;
             $i++;
         }
-
-        return $this->postRepository->storePost($postDetails);
+        $post = new Post();
+        $post->fill($postDetails);
+        return $this->postRepository->storePost($post);
     }
 
-    public function storeTagsAndRelateToPost($postText, $postId)
+    public function storeTagsAndRelateToPost($postModel)
     {
-        $tags = $this->getTagsFromText($postText);
-        if (!$tags) {
-            return false;
-        } else {
-            $tagIds = $this->storeTags($tags);
-        }
-        $post = $this->postRepository->getPostById($postId);
+        $tags = $this->getTagsFromText($postModel->textContent);
+        if (!$tags) return;
+
+        $tagIds = $this->storeTags($tags);
+        $post = $this->postRepository->getPostById($postModel->id);
         $post->tags()->sync($tagIds);
     }
 
@@ -63,7 +63,7 @@ class PostService
 
     public function getSearchedPosts($tagName)
     {
-        return $this->postRepository->getByTagName($tagName);   
+        return $this->postRepository->getByTagName($tagName);
     }
 
     public function getUserPagePosts($refererPath)
@@ -81,5 +81,19 @@ class PostService
     public function getById($id)
     {
         return $this->postRepository->getPostById($id);
+    }
+
+    public function updatePost($request, $editedPostId)
+    {
+        $selectedPost = $this->getById($editedPostId);
+        $selectedPost->body = $request->body;
+        $selectedPost->title = $request->title;
+
+        return $this->postRepository->storePost($selectedPost);
+    }
+
+    public function delete($id)
+    {
+        return $this->postRepository->delete($id);
     }
 }
