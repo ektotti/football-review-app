@@ -3490,7 +3490,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this.hasMorePage) {
-                  _context.next = 13;
+                  _context.next = 14;
                   break;
                 }
 
@@ -3500,6 +3500,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 response = _context.sent;
+                console.log(response);
 
                 if (response.data.errorMessage) {
                   alert(response.data.errorMessage);
@@ -3523,13 +3524,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 $state.loaded();
                 this.hasMorePage = response.data.links.next ? true : false;
                 this.page += 1;
-                _context.next = 14;
+                _context.next = 15;
                 break;
 
-              case 13:
+              case 14:
                 $state.complete();
 
-              case 14:
+              case 15:
               case "end":
                 return _context.stop();
             }

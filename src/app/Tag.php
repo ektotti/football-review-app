@@ -15,14 +15,13 @@ class Tag extends Model
         'id'
     ];
 
+    
+
     static function saveTagsAndGetIdsFromText($text){
         preg_match_all("/#[０-９0-9A-Za-zぁ-んァ-ヶ\一-龠々\ー\-\・]+/u", $text, $matches);
         if(!$matches[0]){
             return false;
         }
-        Log::debug("タグ");
-        Log::debug($text);
-        Log::debug($matches);
         $tagIds = [];
         foreach ($matches[0] as $match) {
             $tag = Tag::firstOrCreate(['tag_name' => $match],[]);
