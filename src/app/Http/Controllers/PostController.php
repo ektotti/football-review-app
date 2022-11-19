@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Tag;
 use App\Http\Requests\PostStoreRequest;
@@ -11,14 +10,19 @@ use App\Http\Requests\PostUpdateRequest;
 use App\Http\Resources\PostResource;
 use App\Service\ImageService;
 use App\Service\PostService;
+use App\Service\TagService;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
 class PostController extends Controller
 {
 
+    public $postService;
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -35,7 +39,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostStoreRequest $request, ImageService $imageService, PostService $postService)
+    public function store(PostStoreRequest $request, ImageService $imageService, TagService $tagService)
     {
         try {
             DB::beginTransaction();
@@ -43,8 +47,9 @@ class PostController extends Controller
             $imagePath = $imageService->saveImagesAndGetImagePath($imageStoragePath, $request->images);
 
             $fixtureId = $request->session()->get('fixture_id');
-            $insertedPost = $postService->storePost($request, $fixtureId, $imagePath);
-            $postService->storeTagsAndRelateToPost($insertedPost);
+            $insertedPost = $this->postService->storePost($request, $fixtureId, $imagePath);
+            $tagIds = $tagService->storeTags($insertedPost);
+            $insertedPost->tags()->sync($tagIds);
 
             DB::commit();
         } catch (Exeption $e) {
@@ -60,9 +65,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, PostService $postService)
+    public function show($id)
     {
-        $post = new PostResource($postService->getById($id));
+        $post = new PostResource($this->postService->getById($id));
         return view('post_detail', compact('post'));
     }
 
@@ -73,12 +78,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostUpdateRequest $request, PostService $postService, $id)
+    public function update(PostUpdateRequest $request, $id)
     {
         try {
             DB::beginTransaction();
-            $editedPost = $postService->updatePost($request, $id);
-            $postService->storeTagsAndRelateToPost($editedPost);
+            $editedPost = $this->postService->updatePost($request, $id);
+            $this->postService->storeTagsAndRelateToPost($editedPost);
             $tagIds = Tag::saveTagsAndGetIdsFromText($request->body);
             if ($tagIds) {
                 $editedPost->tags()->sync($tagIds);
@@ -97,12 +102,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, PostService $postService, ImageService $imageService)
+    public function destroy($id, ImageService $imageService)
     {
         DB::beginTransaction();
         try {
-            $post = $postService->getById($id);
-            $postService->delete($id);
+            $post = $this->postService->getById($id);
+            $this->postService->delete($id);
 
             $imagePath = [];
             for ($i = 1; $i <= 4; $i++) {
