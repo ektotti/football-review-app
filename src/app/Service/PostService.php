@@ -4,16 +4,20 @@ namespace App\Service;
 
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PostRepositoryInterface;
+use App\Repositories\TagRepositoryInterface;
 use App\Post;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class PostService
 {
 
     public $postRepository;
-
-    public function __construct(PostRepositoryInterface $postRepository)
+    public $tagRepository;
+    public function __construct(PostRepositoryInterface $postRepository, TagRepositoryInterface $tagRepository)
     {
         $this->postRepository = $postRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     public function storePost($request, $fixtureId, $imageUrls)
@@ -38,32 +42,43 @@ class PostService
 
     public function storeTagsAndRelateToPost($postModel)
     {
-        $tags = $this->getTagsFromText($postModel->textContent);
+        Log::debug($postModel);
+        $tags = $this->getTagsFromText($postModel->body);
         if (!$tags) return;
 
         $tagIds = $this->storeTags($tags);
-        $post = $this->postRepository->getPostById($postModel->id);
+        $post = $this->postRepository->getById($postModel->id);
         $post->tags()->sync($tagIds);
     }
 
-    public function getTagsFromText($postText)
+    public function getTagsFromText($postBody)
     {
-        preg_match_all("/#[０-９0-9A-Za-zぁ-んァ-ヶ\一-龠々\ー\-\・]+/u", $postText, $matches);
-        if (!$matches[0]) {
-            return false;
-        }
-
+        preg_match_all("/#[０-９0-9A-Za-zぁ-んァ-ヶ\一-龠々\ー\-\・]+/u", $postBody, $matches);
+        if (!$matches[0]) return false;
+        
         return $matches;
     }
 
-    public function storeTags($tags)
+    public function storeTags($tagNames)
     {
-        return $this->postRepository->storeTags($tags);
+        $tagIds = [];
+        foreach ($tagNames as $tagName) {
+            $insertedTag = $this->tagRepository->store($tagName);
+            array_push($tagIds, $insertedTag->id);
+        }
+        return $tagIds;
     }
 
     public function getSearchedPosts($tagName)
     {
-        return $this->postRepository->getByTagName($tagName);
+        $tag = $this->tagRepository->getByName($tagName);
+        if (empty($tag->toArray())) throw new Exception("タグが存在しません。", 1);
+        
+        $postIds = [];
+        foreach ($tag[0]->post as $post) {
+            array_push($postIds, $post->pivot->post_id);
+        };
+        return $this->postRepository->getByIds($postIds);
     }
 
     public function getUserPagePosts($refererPath)
@@ -80,7 +95,7 @@ class PostService
 
     public function getById($id)
     {
-        return $this->postRepository->getPostById($id);
+        return $this->postRepository->getById($id);
     }
 
     public function updatePost($request, $editedPostId)

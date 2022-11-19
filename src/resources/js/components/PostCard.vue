@@ -62,7 +62,7 @@ export default {
                     ? `/post-list/${this.tagName}?page=${this.page}`
                     : `/post-list?page=${this.page}`;
                 let response = await Axios.get(url);
-
+                console.log(response);
                 if (response.data.errorMessage) {
                     alert(response.data.errorMessage);
                     $state.complete();

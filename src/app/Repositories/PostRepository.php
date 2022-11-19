@@ -2,15 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollection;
 use App\Post;
-use App\Tag;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Throwable;
-
-use function PHPUnit\Framework\throwException;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -24,35 +20,17 @@ class PostRepository implements PostRepositoryInterface
         }
     }
 
-    public function getPostById($postId)
+    public function getById($id)
     {
-        return Post::with(['user', 'fixture', 'comments.user', 'likes'])->find($postId);
+        return Post::with(['user', 'fixture', 'comments.user', 'likes'])->find($id);
     }
 
-    public function storeTags($tags)
+    public function getByIds($ids = [])
     {
-        $tagIds = [];
-        foreach ($tags as $tag) {
-            $insertedTag = Tag::firstOrCreate(['tag_name' => $tag], []);
-            array_push($tagIds, $insertedTag->id);
-        }
-        return $tagIds;
-    }
-
-    public function getByTagName($tagName)
-    {
-        $tag = Tag::where('tag_name', "#$tagName")->has('post')->with(['post'])->get();
-        if (empty($tag->toArray())) {
-            throw new Exception("タグが存在しません。", 1);
-        }
-        $postIds = [];
-        foreach ($tag[0]->post as $post) {
-            array_push($postIds, $post->pivot->post_id);
-        };
-        return new PostCollection(Post::wherein('id', $postIds)
+        return Post::wherein('id', $ids)
             ->with(['user', 'fixture', 'comments.user', 'likes'])
             ->orderby('updated_at', 'desc')
-            ->simplePaginate(5));
+            ->simplePaginate(5);
     }
 
     public function getByUserId($userId)

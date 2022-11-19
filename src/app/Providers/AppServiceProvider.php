@@ -8,6 +8,8 @@ use App\Repositories\PostRepository;
 use App\Repositories\PostRepositoryInterface;
 use App\Repositories\FixtureRepositoryInterface;
 use App\Repositories\FixtureRepository;
+use App\Repositories\TagRepositoryInterface;
+use App\Repositories\TagRepository;
 use App\UseCase\GetFixturesInfo;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -40,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
 
         app()->bind(FixtureRepositoryInterface::class, function () {
             return new FixtureRepository;
+        });
+        
+        app()->bind(TagRepositoryInterface::class, function () {
+            return new TagRepository;
         });
     }
 
